@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: center;
+            border: 1px solid #ecf0f1;
+        }
+
+        th {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .download-link {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .download-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>Prediction History for {{ username }}</h2>
+
+    {% if rows %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Age</th>
+                    <th>Sex</th>
+                    <th>Chest Pain</th>
+                    <th>BP</th>
+                    <th>Chol</th>
+                    <th>Max HR</th>
+                    <th>Angina</th>
+                    <th>Prediction</th>
+                    <th>Report</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                <tr>
+                    {% for col in row[:-2] %}
+                    <td>{{ col }}</td>
+                    {% endfor %}
+                    <td>{{ row[-2] }}</td>
+                    <td><a class="download-link" href="{{ '/' + row[-3] }}" target="_blank">View Report</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No prediction history available.</p>
+    {% endif %}
+</body>
+</html>

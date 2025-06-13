@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Heart Health Comprehensive Report</title>
+    <style>
+        body { 
+            font-family: 'Arial', sans-serif; 
+            margin: 20px; 
+            background: #fff; 
+            color: #333;
+        }
+        .header { 
+            text-align: center; 
+            border-bottom: 2px solid #2c3e50; 
+            padding-bottom: 15px; 
+            margin-bottom: 25px;
+        }
+        .clinic-name { 
+            font-size: 24px; 
+            color: #2c3e50; 
+            margin-bottom: 5px;
+        }
+        .patient-info { 
+            margin: 20px 0; 
+            padding: 20px; 
+            background: #f8f9fa; 
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .report-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 25px 0; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .report-table th, .report-table td { 
+            border: 1px solid #ddd; 
+            padding: 12px; 
+            text-align: left; 
+        }
+        .report-table th { 
+            background: #2c3e50; 
+            color: white; 
+            font-weight: 600;
+        }
+        .result-section { 
+            margin: 30px 0; 
+            padding: 25px; 
+            background: #fff9eb; 
+            border-left: 4px solid #f1c40f;
+            border-radius: 4px;
+        }
+        .shap-section { 
+            margin: 35px 0; 
+            padding: 25px; 
+            background: #f8f9fa; 
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .shap-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 20px 0;
+        }
+        .shap-table th { 
+            background: #2c3e50; 
+            color: white; 
+            padding: 14px;
+            font-weight: 600;
+        }
+        .shap-table td { 
+            padding: 12px; 
+            border: 1px solid #ddd;
+        }
+        .print-btn { 
+            background: #3498db; 
+            color: white; 
+            padding: 14px 30px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+        .print-btn:hover {
+            background: #2980b9;
+        }
+        @media print { 
+            .print-btn { display: none; } 
+            body { margin: 0; } 
+            .shap-section { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="clinic-name">CardioCare Diagnostics</div>
+    </div>
+
+    <div class="patient-info">
+        <h3>Patient Information</h3>
+        <p><strong>Name:</strong> {{ name }}</p>
+        <p><strong>Age:</strong> {{ inputs.age }} years</p>
+        <p><strong>Gender:</strong> {{ 'Male' if inputs.sex == 1 else 'Female' }}</p>
+        <p><strong>Report Date:</strong> {{ current_date }}</p>
+    </div>
+
+
+    <h3>Complete Cardiac Assessment</h3>
+    <table class="report-table">
+        <tr>
+            <th>Parameter</th>
+            <th>Value</th>
+            <th>Normal Range</th>
+        </tr>
+        <tr>
+            <td>Age</td>
+            <td>{{ inputs.age }} years</td>
+            <td>N/A</td>
+        </tr>
+        <tr>
+            <td>Gender</td>
+            <td>{{ 'Male' if inputs.sex == 1 else 'Female' }}</td>
+            <td>N/A</td>
+        </tr>
+        <tr>
+            <td>Chest Pain Type</td>
+            <td>Type {{ inputs.cp + 1 }}</td>
+            <td>0-3</td>
+        </tr>
+        <tr>
+            <td>Resting Blood Pressure</td>
+            <td>{{ inputs.trestbps }} mmHg</td>
+            <td>90-120</td>
+        </tr>
+        <tr>
+            <td>Cholesterol</td>
+            <td>{{ inputs.chol }} mg/dL</td>
+            <td>120-200</td>
+        </tr>
+        <tr>
+            <td>Fasting Blood Sugar</td>
+            <td>{{ 'Yes' if inputs.fbs == 1 else 'No' }}</td>
+            <td>&lt; 120 mg/dL</td>
+        </tr>
+        <tr>
+            <td>Electrocardiographic</td>
+            <td>Type {{ inputs.restecg + 1 }}</td>
+            <td>0-2</td>
+        </tr>
+        <tr>
+            <td>Maximum Heart Rate</td>
+            <td>{{ inputs.thalach }} bpm</td>
+            <td>60-100</td>
+        </tr>
+        <tr>
+            <td>Exercise Induced Angina</td>
+            <td>{{ 'Yes' if inputs.exang == 1 else 'No' }}</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>ST Depression (Oldpeak)</td>
+            <td>{{ inputs.oldpeak }}</td>
+            <td>0-2</td>
+        </tr>
+        <tr>
+            <td>Slope</td>
+            <td>{{ inputs.slope }}</td>
+            <td>0-2</td>
+        </tr>
+        <tr>
+            <td>Number of Major Vessels (CA)</td>
+            <td>{{ inputs.ca }}</td>
+            <td>0-3</td>
+        </tr>
+        <tr>
+            <td>Thalassemia</td>
+            <td>{{ inputs.thal }}</td>
+            <td>0-3</td>
+        </tr>
+    </table>
+
+
+
+
+
+
+
+    <div class="result-section">
+        <h3>Diagnostic Conclusion</h3>
+        {% if prediction == 1 %}
+            <p style="color: #c0392b; font-weight: bold; font-size: 18px;">
+                High Risk of Heart Disease Detected
+            </p>
+            <p><strong>Recommendations:</strong> Immediate cardiologist consultation, ECG, and stress test advised.</p>
+        {% else %}
+            <p style="color: #27ae60; font-weight: bold; font-size: 18px;">
+                Normal Cardiac Parameters
+            </p>
+            <p><strong>Recommendations:</strong> Regular checkups and maintain healthy lifestyle.</p>
+        {% endif %}
+    </div>
+
+    <!-- Enhanced SHAP Section -->
+    <!-- Enhanced SHAP Section -->
+<div class="shap-section">
+  <h3 style="margin-bottom: 15px;">Risk Factor Analysis</h3>
+  <p style="color: #7f8c8d; margin-bottom: 20px;">
+      Contribution of each parameter to the prediction:
+  </p>
+  
+  <table class="shap-table">
+      <tr>
+          <th>Parameter</th>
+          <th>Impact Score</th>
+          <th>Effect Direction</th>
+      </tr>
+      {% for feature, value in shap_data %}
+      <tr>
+          <!-- Parameter Name -->
+          <td>{{ feature }}</td>
+          
+          <!-- Impact Score (numeric value) -->
+          <td>{{ "%.4f"|format(value) }}</td>
+          
+          <!-- Effect Direction -->
+          <td>
+              {% if value > 0 %}
+                  <span style="color: #c0392b;">▲ Increased Risk</span>
+              {% else %}
+                  <span style="color: #27ae60;">▼ Decreased Risk</span>
+              {% endif %}
+          </td>
+      </tr>
+      {% endfor %}
+  </table>
+  <h4 style="margin-top: 30px;">SHAP Summary Plot</h4>
+<img src="{{ shap_plot_path }}" alt="SHAP Plot" style="width: 100%; max-width: 700px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+
+  
+  <div style="margin-top: 20px; color: #7f8c8d; font-size: 0.9em;">
+      <small>
+          Note: Scores indicate relative contribution to prediction.<br>
+          Higher absolute values indicate stronger impact.
+      </small>
+  </div>
+</div>
+
+    <div class="footer">
+        <p>** Computer Generated Report - Valid Without Signature **</p>
+        <p>Generated on: {{ current_date }}</p>
+    </div>
+
+    <center style="margin: 30px 0;">
+        <button onclick="window.print()" class="print-btn">
+            Download/Print Full Report
+        </button>
+    </center>
+</body>
+</html>
